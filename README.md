@@ -9,7 +9,6 @@ Static project page for the ICML 2026 paper:
 - `index.html` - main project page
 - `assets/styles.css` - page styles
 - `assets/app.js` - gallery rendering, search, autoplay toggle, BibTeX copy
-- `assets/paper.pdf` - paper PDF linked from the homepage
 - `assets/figures/` - paper figures and exported web images
 - `assets/videos/` - demo videos shown in the gallery
 - `data/videos.js` - video metadata for the 54 demo cases
