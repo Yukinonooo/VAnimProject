@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VAnim: Rendering-Aware Sparse State Modeling for Structure-Preserving Vector Animation</title>
+  <meta
+    name="description"
+    content="Official project page for VAnim, an ICML 2026 paper on structure-preserving open-domain text-to-SVG animation."
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Fraunces:opsz,wght,SOFT@9..144,500;9..144,700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <div class="page-glow page-glow-left"></div>
+  <div class="page-glow page-glow-right"></div>
+
+  <header class="site-header">
+    <a class="brand" href="#top">VAnim</a>
+    <nav class="header-nav" aria-label="Primary">
+      <a href="#overview">Overview</a>
+      <a href="#method">Method</a>
+      <a href="#dataset">Dataset</a>
+      <a href="#results">Results</a>
+      <a href="#gallery">Cases</a>
+      <a href="#citation">Citation</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">Accepted at ICML 2026</p>
+        <h1>VAnim: Rendering-Aware Sparse State Modeling for Structure-Preserving Vector Animation</h1>
+        <p class="subtitle">
+          The first LLM-based framework for open-domain text-to-SVG animation, modeling motion as
+          sparse state updates on a persistent SVG DOM tree for stronger identity consistency,
+          structural validity, and geometry-level deformation.
+        </p>
+
+        <div class="authors" aria-label="Authors">
+          <span>Guotao Liang<sup>1</sup></span>
+          <span>Zhangcheng Wang<sup>2</sup></span>
+          <span>Chuang Wang<sup>1</sup></span>
+          <span>Juncheng Hu<sup>1</sup></span>
+          <span>Haitao Zhou<sup>1</sup></span>
+          <span>Junhua Liu<sup>3</sup></span>
+          <span>Jing Zhang<sup>1</sup></span>
+          <span>Dong Xu<sup>4</sup></span>
+          <span>Qian Yu<sup>1</sup></span>
+        </div>
+
+        <p class="affiliations">
+          <span><sup>1</sup>Beihang University</span>
+          <span><sup>2</sup>4Paradigm</span>
+          <span><sup>3</sup>Zhejiang University</span>
+          <span><sup>4</sup>The University of Hong Kong</span>
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn primary" href="assets/paper.pdf" target="_blank" rel="noreferrer">Read Paper</a>
+          <a class="btn" href="#gallery">Watch 54 Demos</a>
+          <span class="btn disabled" aria-disabled="true">Code Coming Soon</span>
+          <span class="btn disabled" aria-disabled="true">Dataset Page Coming Soon</span>
+        </div>
+
+        <div class="hero-facts">
+          <span class="stat-pill">SVGAnim-134k benchmark</span>
+          <span class="stat-pill">Over 9.8x sequence compression</span>
+          <span class="stat-pill">Identification-First Motion Planning</span>
+          <span class="stat-pill">Rendering-Aware GRPO</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="summary-band" id="overview">
+      <article class="summary-card">
+        <span class="summary-label">Core Idea</span>
+        <h2>Sparse State Updates on a persistent SVG DOM tree</h2>
+        <p>
+          VAnim predicts differential updates instead of regenerating a full SVG at every step,
+          reducing token length while preserving non-participating elements by construction.
+        </p>
+      </article>
+      <article class="summary-card">
+        <span class="summary-label">Why It Matters</span>
+        <h2>Structure-preserving motion beyond rigid transforms</h2>
+        <p>
+          The framework supports geometry-level motion and path deformation, unlocking richer vector
+          animation than CSS or SMIL transform-only generation.
+        </p>
+      </article>
+      <article class="summary-card">
+        <span class="summary-label">Scale</span>
+        <h2>134k training samples and 54 public demo cases</h2>
+        <p>
+          The project introduces SVGAnim-134k, the first large-scale vector animation benchmark, and
+          pairs it with a curated on-page case gallery for qualitative inspection.
+        </p>
+      </article>
+    </section>
+
+    <section class="panel" id="abstract">
+      <div class="section-heading">
+        <p class="section-kicker">Abstract</p>
+        <h2>Open-domain text-to-SVG animation with structural control</h2>
+      </div>
+      <p class="lead">
+        Scalable Vector Graphics animation is valuable because it remains editable, lightweight, and
+        resolution independent, yet it is difficult to generate automatically: the model must bridge
+        discrete SVG code with continuous visual dynamics while preserving topology and identity. VAnim
+        addresses this by representing animation as sparse state updates over a persistent SVG DOM
+        tree, grounding motion through Identification-First Motion Planning, and aligning generation
+        with rendered visual feedback using Rendering-Aware Reinforcement Learning via GRPO.
+      </p>
+    </section>
+
+    <section class="panel">
+      <div class="section-heading">
+        <p class="section-kicker">Contributions</p>
+        <h2>Three ingredients behind VAnim</h2>
+      </div>
+      <div class="insight-grid">
+        <article class="insight-card">
+          <span class="insight-index">01</span>
+          <h3>SVGAnim-134k benchmark</h3>
+          <p>
+            A large-scale benchmark for training and evaluating vector animation models, built from
+            linguistically annotated SVG animation sequences.
+          </p>
+        </article>
+        <article class="insight-card">
+          <span class="insight-index">02</span>
+          <h3>Identification-First sparse generation</h3>
+          <p>
+            Motion planning is explicitly grounded to persistent SVG identities, then executed through
+            sparse updates that retain the original structure by design.
+          </p>
+        </article>
+        <article class="insight-card">
+          <span class="insight-index">03</span>
+          <h3>Rendering-aware optimization</h3>
+          <p>
+            GRPO introduces visual reward feedback so the model can learn code updates that better
+            match the intended motion and semantics after rendering.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel" id="method">
+      <div class="section-heading">
+        <p class="section-kicker">Method</p>
+        <h2>From SVG identity grounding to rendering-aware training</h2>
+      </div>
+      <div class="figure-layout">
+        <figure class="figure-card figure-card-wide">
+          <a href="assets/figures/pipeline.pdf" target="_blank" rel="noreferrer">
+            <img
+              src="assets/figures/web/pipeline.png"
+              alt="Overview figure of the VAnim framework."
+            />
+          </a>
+          <figcaption>
+            Framework overview: identify and plan motion on persistent SVG entities, execute sparse
+            updates, then optimize with rendering-aware GRPO.
+          </figcaption>
+        </figure>
+
+        <div class="figure-pair">
+          <figure class="figure-card">
+            <a href="assets/figures/data_pipe.pdf" target="_blank" rel="noreferrer">
+              <img
+                src="assets/figures/web/data_pipe.png"
+                alt="Construction pipeline of the SVGAnim-134k dataset."
+              />
+            </a>
+            <figcaption>
+              SVGAnim-134k construction pipeline from Lottie sources to sparse state updates and
+              dual-stream annotations.
+            </figcaption>
+          </figure>
+          <figure class="figure-card">
+            <a href="assets/figures/token_eff.pdf" target="_blank" rel="noreferrer">
+              <img
+                src="assets/figures/web/token_eff.png"
+                alt="Token efficiency analysis for sparse state updates."
+              />
+            </a>
+            <figcaption>
+              Sparse state updates keep long-horizon animation generation tractable by compressing the
+              sequence representation.
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="dataset">
+      <div class="section-heading">
+        <p class="section-kicker">Dataset</p>
+        <h2>SVGAnim-134k captures real vector motion diversity</h2>
+      </div>
+      <div class="split-layout">
+        <div class="split-copy">
+          <p>
+            The benchmark spans UI icons, loading indicators, narrative illustrations, and character
+            dynamics. The resulting distribution contains a substantial share of path-level updates,
+            making the task meaningfully harder than rigid transform animation.
+          </p>
+          <ul class="feature-list">
+            <li>First large-scale dataset for vector animation generation.</li>
+            <li>Dual-stream annotations pair user prompts with structure-bound reasoning traces.</li>
+            <li>Designed to support SFT, RL optimization, and held-out evaluation.</li>
+          </ul>
+        </div>
+
+        <div class="figure-pair">
+          <figure class="figure-card">
+            <a href="assets/figures/dataset.pdf" target="_blank" rel="noreferrer">
+              <img
+                src="assets/figures/web/dataset.png"
+                alt="Representative samples from the SVGAnim-134k dataset."
+              />
+            </a>
+            <figcaption>Representative samples from SVGAnim-134k across diverse visual domains.</figcaption>
+          </figure>
+          <figure class="figure-card">
+            <a href="assets/figures/attribute_distribution.pdf" target="_blank" rel="noreferrer">
+              <img
+                src="assets/figures/web/attribute_distribution.png"
+                alt="Attribute update distribution in the SVGAnim-134k dataset."
+              />
+            </a>
+            <figcaption>
+              Attribute update statistics reveal strong geometry-level motion complexity, including
+              non-rigid path manipulations.
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="results">
+      <div class="section-heading">
+        <p class="section-kicker">Results</p>
+        <h2>Better semantic alignment with stronger structure preservation</h2>
+      </div>
+      <figure class="figure-card figure-card-wide">
+        <a href="assets/figures/compare.pdf" target="_blank" rel="noreferrer">
+          <img
+            src="assets/figures/web/compare.png"
+            alt="Qualitative comparison between VAnim and baseline methods."
+          />
+        </a>
+        <figcaption>
+          Qualitative comparison against Gemini-3-Pro, GPT-5.2, and LiveSketch. VAnim preserves
+          identity and topology while executing non-rigid and sequential motions more faithfully.
+        </figcaption>
+      </figure>
+
+      <div class="figure-pair top-gap">
+        <figure class="figure-card">
+          <a href="assets/figures/ablation.pdf" target="_blank" rel="noreferrer">
+            <img
+              src="assets/figures/web/ablation.png"
+              alt="Ablation study figure for VAnim."
+            />
+          </a>
+          <figcaption>
+            Ablations isolate the contributions of sparse updates, input grounding, and rendering-aware
+            optimization.
+          </figcaption>
+        </figure>
+        <article class="callout-card">
+          <span class="summary-label">Takeaway</span>
+          <h3>What the paper emphasizes</h3>
+          <p>
+            The main gains come from two design decisions: a sparse representation that naturally
+            stabilizes structure, and visual reward feedback that teaches the model to align rendered
+            motion with prompt semantics.
+          </p>
+          <p>
+            Together, they let VAnim handle long-horizon animation with richer deformation patterns
+            than rigid transform pipelines.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel" id="featured-cases">
+      <div class="section-heading">
+        <p class="section-kicker">Featured Cases</p>
+        <h2>A quick look at representative generated animations</h2>
+      </div>
+      <div id="featured-grid" class="gallery-grid featured-grid"></div>
+    </section>
+
+    <section class="controls" id="gallery">
+      <div class="section-heading">
+        <p class="section-kicker">Full Gallery</p>
+        <h2>Browse all public demo cases</h2>
+      </div>
+      <div class="control-row">
+        <input id="search" type="search" placeholder="Search by case id, e.g. 12" aria-label="Search demo cases" />
+        <button id="autoplay-toggle" class="btn small" type="button">Autoplay: On</button>
+        <span id="stats">Loading demos...</span>
+      </div>
+    </section>
+
+    <section>
+      <div id="gallery-grid" class="gallery-grid"></div>
+    </section>
+
+    <section class="panel" id="citation">
+      <div class="section-heading">
+        <p class="section-kicker">Citation</p>
+        <h2>Use this BibTeX entry</h2>
+      </div>
+      <div class="citation-box">
+        <pre id="bibtex">@inproceedings{liang2026vanim,
+  title={VAnim: Rendering-Aware Sparse State Modeling for Structure-Preserving Vector Animation},
+  author={Liang, Guotao and Wang, Zhangcheng and Wang, Chuang and Hu, Juncheng and Zhou, Haitao and Liu, Junhua and Zhang, Jing and Xu, Dong and Yu, Qian},
+  booktitle={Proceedings of the 43rd International Conference on Machine Learning},
+  year={2026}
+}</pre>
+        <button id="copy-citation" class="btn small" type="button">Copy BibTeX</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Project page for the ICML 2026 paper VAnim.</p>
+    <p>Correspondence: <a href="mailto:qianyu@buaa.edu.cn">qianyu@buaa.edu.cn</a></p>
+  </footer>
+
+  <script src="data/videos.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>
