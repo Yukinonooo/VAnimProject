@@ -120,8 +120,12 @@ main {
 }
 
 .hero {
-  display: block;
-  padding: 52px 0 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(86vh - 96px);
+  padding: 58px 0 34px;
+  text-align: center;
 }
 
 .hero-copy,
@@ -132,7 +136,8 @@ main {
 }
 
 .hero-copy {
-  max-width: 1320px;
+  width: min(1180px, 100%);
+  margin: 0 auto;
 }
 
 .eyebrow,
@@ -146,6 +151,39 @@ main {
   color: var(--accent);
 }
 
+.acceptance-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 auto 22px;
+  padding: 9px 10px 9px 14px;
+  border: 1px solid rgba(13, 141, 131, 0.24);
+  border-radius: 999px;
+  background:
+    linear-gradient(135deg, rgba(13, 141, 131, 0.13), rgba(255, 255, 255, 0.7)),
+    rgba(255, 253, 249, 0.82);
+  box-shadow: 0 12px 32px rgba(13, 141, 131, 0.12);
+  color: #0a5f58;
+  font-weight: 700;
+}
+
+.acceptance-status {
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.acceptance-venue {
+  font-family: "Fraunces", serif;
+  font-size: clamp(1.15rem, 1.7vw, 1.6rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
 h1,
 h2,
 h3 {
@@ -155,15 +193,27 @@ h3 {
 }
 
 h1 {
-  font-size: clamp(2.9rem, 4.6vw, 4.8rem);
-  line-height: 1.02;
-  max-width: 26ch;
+  font-size: clamp(4.2rem, 10vw, 8.2rem);
+  line-height: 0.9;
+}
+
+.paper-title {
+  margin: 18px auto 0;
+  max-width: 35ch;
+  font-family: "Fraunces", serif;
+  color: var(--ink);
+  font-size: clamp(1.65rem, 3vw, 2.65rem);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
   text-wrap: balance;
 }
 
 .subtitle {
   margin: 18px 0 0;
-  max-width: 84ch;
+  max-width: 78ch;
+  margin-left: auto;
+  margin-right: auto;
   color: var(--muted);
   font-size: 1.08rem;
   line-height: 1.78;
@@ -174,6 +224,7 @@ h1 {
 .hero-facts {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 10px 16px;
 }
 
@@ -215,6 +266,7 @@ h1 {
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 12px;
   margin-top: 28px;
 }
@@ -286,10 +338,10 @@ h1 {
 }
 
 .section-heading h2 {
-  font-size: clamp(1.8rem, 2.8vw, 2.6rem);
-  line-height: 1.02;
-  max-width: 18ch;
-  overflow-wrap: anywhere;
+  font-size: clamp(1.45rem, 1.85vw, 2rem);
+  line-height: 1.16;
+  max-width: none;
+  letter-spacing: -0.02em;
 }
 
 .lead,
@@ -613,8 +665,8 @@ sup {
     grid-template-columns: 1fr;
   }
 
-  h1 {
-    max-width: 18ch;
+  .hero {
+    min-height: 0;
   }
 }
 
@@ -663,8 +715,12 @@ sup {
   }
 
   h1 {
-    font-size: 2.8rem;
-    max-width: 14ch;
+    font-size: 4.2rem;
+  }
+
+  .paper-title {
+    max-width: 20ch;
+    font-size: 1.55rem;
   }
 
   .section-heading h2,
